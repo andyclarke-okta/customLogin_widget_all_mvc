@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewBag.Title = "We found your account!";
+}
+
+<p class="margin-btm-25">Your primary email address in our system looks like: <strong>@ViewBag.Email</strong>.</p>
+
+<div class="subcontainer-inner-wrapper user-found-msg">
+    <p>If <strong>@ViewBag.Email</strong> looks like your email address, <a href="~/Home/Index">try to log in</a>.</p>
+
+    <p>If you do not know your password, <a href="~/ForgotPassword?email=@ViewBag.Email">let us reset it</a>.</p>
+
+    <p>
+        If you no longer have access to the email address <strong>@ViewBag.Email</strong>, please <a href="http://www.mydomain.com/Contact/Pages/Contact.aspx">contact us</a>.
+    </p>
+</div>
+

@@ -1,0 +1,45 @@
+﻿@model OktaJS_SDK.Models.RegistrationViewModel
+
+@{
+    ViewBag.Title = "InitiateRegistration";
+}
+
+<div id="fieldverification" class="infobox infobox-error infobox-compact icon-16 clear signin-feedback" style="display:none">
+    <span class="glyphicon glyphicon-exclamation-sign form-alert"></span>
+    <p id="errmessage"> </p>
+</div>
+<div id="signin-box" class="rounded-6 sign-in-content">
+
+    <form action="~/Registration/Register" method="post" id="registerUser" class="v-form"  autocomplete="off" style="border:none;">
+        @Html.ValidationSummary(true)
+        @Html.AntiForgeryToken()
+        <fieldset style="display:block;">
+            <legend id="registerUserLabel"> Register User</legend>
+            <p>&nbsp</p>
+
+            <input id="relayState" name="relayState" type="hidden" value="@TempData["relayState"]" placeholder="" />
+
+            <div class="inline-label-wrap margin-btm-10">
+                <label id="firstnameLabel" for="firstName" class="first margin-0">firstName</label>
+                <input name="firstName" id="firstName" type="text" value="@TempData["firstName"]" autofocus  tabindex="1">
+            </div>
+            <br />
+
+            <div class="inline-label-wrap margin-btm-10">
+                <label id="lastnameLabel" for="lastName" class="margin-0">lastName</label>
+                <input name="lastName" id="lastName" type="text" autocomplete="off" value=""  tabindex="2">
+            </div>
+            <br />
+
+            <input value="Register" name="register" type="submit" id="signin-button" class="button allow-in-read-only allow-in-safe-mode" tabindex="4">
+        </fieldset>
+
+
+    </form>
+
+    <div id="help-links">
+        @*  <a id="forgotpwd" href="~/ForgotPassword/InitiateForgot">Forgot password?</a>*@
+        <a id="forgotpwd" href="~/ForgotPassword/InitiateForgot" onclick="changeLink()">Forgot password?</a>
+    </div>
+</div> <!-- signin block-->
+

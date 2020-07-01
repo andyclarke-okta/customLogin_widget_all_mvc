@@ -1,0 +1,102 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Okta Sign-in Widget</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="~/Content/okta-sign-in.css" type="text/css" rel="stylesheet" />
+    <link href="~/Content/okta-theme.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+    <div id="okta-login-container"></div>
+
+    <link rel="stylesheet" href="/Content/bootstrap.css">
+    <link rel="stylesheet" href="/Content/site.css">
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/respond.js"></script>
+    <script src="~/Scripts/modernizr.custom.48287.js"></script>
+
+    <script src="~/Scripts/okta-sign-in.js"></script>
+    @*<script src="~/Scripts/okta-auth-sdk.js"></script>*@
+    <script type="text/javascript">
+    var myIssuer = "@TempData["issuer"]";
+    var clientId = "@TempData["clientId"]";
+    var redirectUri = "@TempData["redirectUri"]";
+    var myOktaOrg = "@TempData["oktaOrg"]";
+
+    var mySessionId = "no session data";
+
+    var idTokenKey = 'idToken';
+    var sessionTokenKey = 'sessionToken';
+    var userLoginKey = 'userLogin';
+
+    var options = {
+        baseUrl: myOktaOrg,
+        logo: "/img/logo_widgico.png",
+        features: {
+            router: true,
+            rememberMe: false,
+            smsRecovery: true,
+            multiOptionalFactorEnroll: false
+        },
+        // OIDC options
+        clientId: clientId,
+        redirectUri: redirectUri,
+        authScheme: 'OAUTH2',
+        authParams: {
+            issuer: myIssuer,
+            responseType: 'code id_token',
+            responseMode: 'form_post',
+            //responseMode: 'fragment',
+            scope: [
+              'openid',
+              'profile'
+            ]
+        }
+    };
+    var oktaSignIn = new OktaSignIn(options);
+    //debugger;
+    oktaSignIn.renderEl(
+      { el: '#okta-login-container' },
+      function (res) {
+          if (res.status === 'SUCCESS') {
+              console.log("login successful");
+              console.log(res);
+              //debugger;
+              var id_token = res.idToken;
+              console.log('id token: ' + id_token);
+              //res.session.setCookieAndRedirect(options.baseUrl + '/app/UserHome');
+
+              // Check browser support
+              if (typeof (Storage) !== "undefined") {
+                  // Store
+                  console.log("stored data is enabled");
+                  //sessionStorage.setItem(idTokenKey, id_token);
+                  //sessionStorage.setItem(userLoginKey, res.claims.preferred_username);
+
+              } else {
+                  console.log("Sorry, your browser does not support Web Storage...");
+              }
+              // showAuthUI(true, res.claims.preferred_username);
+
+          }
+      },
+// Failure callback (invoked if the authentication is unsuccessful
+// or if there is a failure on authentication)
+        function (err) {
+            // handleErrors(err);
+            console.log("failed to login: %o", err);
+        }
+    );
+    </script>
+</body>
+</html>
+
+

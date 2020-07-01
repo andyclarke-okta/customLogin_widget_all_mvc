@@ -1,0 +1,39 @@
+﻿html>
+<head>
+    <title>Account Activation Request</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div>&nbsp;</div>
+    <div class="panel panel-success col-md-8">
+        <div>&nbsp;</div>
+        <div class="panel panel-heading">
+            <div class="panel-title">
+                Your New Account has been Created
+            </div>
+        </div>
+        <div class="panel panel-body">
+            <div>
+                <p>Hi @TempData["firstName"]</p>
+                <p>
+                    If you did not request an account creation, please ignore this email.
+                </p>
+            </div>
+            <div>
+                <p>
+                    To complete the account registration process, please go to
+                    <a href="@Request.Url.GetLeftPart(UriPartial.Authority)/Registration/Activate?token=@TempData["recoveryToken"]&locator=@TempData["oktaId"]">
+                        @Request.Url.GetLeftPart(UriPartial.Authority)/Registration/Activate?token=@TempData["recoveryToken"]&locator=@TempData["oktaId"]
+                    </a>
+                    and set a new password.
+                </p>
+                <p>This link expires in @TempData["linkExpiry"] hours."</p>
+            </div>
+            <div>&nbsp;</div>
+            <div>
+                Thank you!
+            </div>
+        </div>
+    </div>
+</body>
+</html>

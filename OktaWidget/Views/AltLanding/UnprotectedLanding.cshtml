@@ -1,0 +1,291 @@
+﻿@model OktaJS_SDK.Models.GetInfoResponse
+
+@{
+    ViewBag.Title = "UnProtected";
+}
+
+
+
+    <style>
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        /* The Close Button */
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+            .close:hover,
+            .close:focus {
+                color: #000;
+                text-decoration: none;
+                cursor: pointer;
+            }
+    </style>
+
+
+
+
+
+    <div style="display:inline; margin:10px; padding:10px;">
+        <span id="session"></span>
+        <span id="my_session_id"></span>
+    </div>
+    <br />
+
+    @*<div style="display:block; margin:10px; padding:10px;">*@
+<div id="signin-box" class="rounded-6 sign-in-content">
+
+    <h1>Unprotected Landing</h1>
+
+
+    <fieldset style="display:block;">
+        <form action="~/AltLanding/GetUserInfo" method="post" id="getuserinfo" onsubmit="return displaySessions()" class="v-form" autocomplete="off" style="border:none;">
+            @*@Html.ValidationSummary(true)
+                @Html.AntiForgeryToken()*@
+            <input id="accessToken" name="accessToken" type="hidden" value="@TempData["accessToken"]" placeholder="" />
+            <input id="oktaId" name="oktaId" type="hidden" placeholder="" />
+            <input id="session_id" name="session_id" type="hidden" placeholder="" />
+            <br />
+            <input value="Initiate Auth OIDC" name="oidc_but" type="submit" id="oidc_but" class="button allow-in-read-only allow-in-safe-mode" tabindex="4"><br />
+            <label id="oidc" for="oidc_but">after acquiring SessionCookie, Initiate OIDC Auth Code workflow</label>
+            <br />
+            <br />
+            <input value="Initiate Implicit OIDC" name="oidc_but" type="submit" id="oidc_but" class="button allow-in-read-only allow-in-safe-mode" tabindex="4"><br />
+            <label id="oidc" for="oidc_but">after acquiring SessionCookie, Initiate OIDC Implicit workflow</label>
+            <br />
+            <br />
+
+        </form>
+
+    </fieldset>
+
+</div>
+
+@*<div>
+    <button id="sessionme_but" onclick="displaySessions()" class="button allow-in-read-only allow-in-safe-mode float-n"> Display Sessions</button>
+    <label id="sessionme" for="sessionme_but">Display Session Cookie from client-side</label>
+    <br />
+    <br />
+    <button id="logout_but" onclick="logoutSessions()" class="button allow-in-read-only allow-in-safe-mode float-n"> Logout User</button>
+    <label id="logout" for="logout_but">Logout User from client-side</label>
+</div>*@
+
+
+
+
+    <!-- Trigger/Open The Modal -->
+    @*<button id="myBtn">Display GetInfo Data</button>*@
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">×</span>
+            @* <p>Some text in the Modal..</p>*@
+            <h4>GetInfoResponse</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.sub); &nbsp @Html.DisplayFor(model => model.sub)
+                </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.name); &nbsp @Html.DisplayFor(model => model.name)
+                </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.nickname); &nbsp @Html.DisplayFor(model => model.nickname)
+                </dt>
+                @Html.DisplayNameFor(model => model.given_name); &nbsp @Html.DisplayFor(model => model.given_name)
+                </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.middle_name); &nbsp @Html.DisplayFor(model => model.middle_name)
+                </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.family_name); &nbsp @Html.DisplayFor(model => model.family_name)
+                </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.profile); &nbsp @Html.DisplayFor(model => model.profile)
+                </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.zoneinfo); &nbsp @Html.DisplayFor(model => model.zoneinfo)
+                </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.locale); &nbsp @Html.DisplayFor(model => model.locale)
+                </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.updated_at); &nbsp @Html.DisplayFor(model => model.updated_at)
+                </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.email); &nbsp @Html.DisplayFor(model => model.email)
+                </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.email_verified); &nbsp @Html.DisplayFor(model => model.email_verified)
+                </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.phone_number); &nbsp @Html.DisplayFor(model => model.phone_number)
+                </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.preferred_username); &nbsp @Html.DisplayFor(model => model.preferred_username)
+                </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.error); &nbsp @Html.DisplayFor(model => model.error)
+                </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.error_description); &nbsp @Html.DisplayFor(model => model.error_description)
+                </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.errorCode); &nbsp @Html.DisplayFor(model => model.errorCode)
+                </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.errorSummary); &nbsp @Html.DisplayFor(model => model.errorSummary)
+                </dt>
+
+            </dl>
+
+
+        </div>
+
+    </div>
+
+    <script>
+
+
+        var myOktaOrg = "@TempData["oktaOrg"]";
+        //var myToken = "@TempData["token"]";
+        var mySessionId = "no session data";
+
+
+// Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal
+btn.onclick = function() {
+    modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+
+        (function () {
+            var url = window.location.href;
+            var arr = url.split("/");
+            var result = arr[0] + "//" + arr[2];
+            document.getElementById("demo").innerHTML = result;
+
+        })();
+
+function processData() {
+    displaySessions();
+    //document.getElementById("session_data").value = mySessionId;
+}
+
+function logoutSessions() {
+    baseUrl = myOktaOrg;
+    //document.getElementById("Logout").innerHTML = " Logout Session ";
+    //document.getElementById("Logout_data").innerHTML = mySessionId;
+
+    // Detect if user has session...
+    $.ajax({
+        //   url: baseUrl + '/api/v1/sessions/' + my_session_id,
+        url: baseUrl + '/api/v1/sessions/me',
+        crossDomain: true,
+        type: 'DELETE',
+        xhrFields: { withCredentials: true },
+        accept: 'application/json',
+        //headers: {
+        //    'Authorization': 'SSWS ' + myToken,
+        //    'Accept': 'application/json',
+        //    'Content-Type': 'application/json'
+        //},
+        error: function (xhr, ajaxOptions, thrownError) {
+            console.log(xhr.status);
+            console.log(thrownError);
+        },
+        success: function (data) {
+            console.log(data);
+        }
+    });
+
+}
+
+function displaySessions() {
+    // Variables
+
+    baseUrl = myOktaOrg;
+
+    document.getElementById("session").innerHTML = "Current Sessions Id: ";
+    //  debugger;
+    // Detect if user has session...
+    $.ajax({
+        url: baseUrl + '/api/v1/sessions/me',
+        type: 'GET',
+        xhrFields: { withCredentials: true },
+        accept: 'application/json'
+    })
+    .done(function (meData) {
+        console.log('me: ', meData);
+        console.log('session_id', meData.id);
+        document.getElementById("my_session_id").innerHTML = meData.id;
+        document.getElementById("session_id").value = meData.id;
+        document.getElementById("oktaId").value = meData.userId;
+        mySessionId = meData.id;
+        console.log("Just Redirect Here:", nextURI);
+
+
+    })
+    .fail(function (meData, textStatus, error) {
+        console.log('meData: ', meData);
+        console.log('meData.status: ', meData.status);
+        console.log('statusText: ', meData.statusText);
+        console.log('error: ', error);
+
+        document.getElementById("my_session_id").innerHTML = "No Session ID present";
+
+    });
+}
+
+    </script>
+
+
+

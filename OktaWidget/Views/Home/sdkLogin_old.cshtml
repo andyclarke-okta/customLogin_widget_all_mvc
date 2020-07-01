@@ -1,0 +1,67 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Okta Sign-in Widget</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="~/Content/okta-sign-in.css" type="text/css" rel="stylesheet" />
+    <link href="~/Content/okta-theme.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+    <div id="okta-login-container"></div>
+    @* <script src="~/Scripts/okta-sign-in.js"></script>*@
+    <script src="~/Scripts/okta-auth-sdk.js"></script>
+
+    <p>Login with JavaScript SDK</p>
+    <p id="feedback" name="feedback"></p>
+
+    <script type="text/javascript">
+        debugger;
+        var clientId = "@TempData["clientId"]";
+        var redirectUri = "@TempData["redirectUri"]";
+        var myOktaOrg = "@TempData["oktaOrg"]";
+        var mySessionId = "no session data";
+
+
+        function setupOktaSignIn() {
+            var authClient = new OktaAuth({ url: myOktaOrg });
+            authClient.signIn({
+                username: 'tracy.brown',
+                password: 'Saddlecreek01'
+            })
+            .then(function (transaction) { // On success
+                switch (transaction.status) {
+
+                    case 'SUCCESS':
+                        console.log("js sdk login successful")
+                        document.getElementById("feedback").innerHTML = "js sdk login successful";
+                        authClient.session.setCookieAndRedirect(transaction.sessionToken); // Sets a cookie on redirect
+                        break;
+
+                    default:
+                        console.log(" unhandled response from authn " + transaction.status)
+                        document.getElementById("feedback").innerHTML = " unhandled response from authn " + transaction.status;
+                        throw 'We cannot handle the ' + transaction.status + ' status';
+                }
+            })
+            .fail(function (err) { // On failure
+                console.error(err);
+            });
+        };
+
+        (function () {
+                setupOktaSignIn();
+            });
+
+        //$(document).ready(function () {
+        //    setupOktaSignIn();
+        //});
+
+    </script>
+</body>
+</html>
+

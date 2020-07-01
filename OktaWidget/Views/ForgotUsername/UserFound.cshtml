@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "We found your account!";
+}
+
+<h1>@ViewBag.Title</h1>
+
+<p class="margin-btm-25">Your Username in our system looks like: <strong>@ViewBag.MaskedEmail</strong>.</p>
+
+<div class="subcontainer-inner-wrapper user-found-msg">
+    <p>If <strong>@ViewBag.MaskedEmail</strong> looks like your Username, <a href="~/Home/Index">try to log in</a>.</p>
+    
+    <p>If you do not know your password, <a href="~/ForgotPassword?email=@ViewBag.Email">let us reset it</a>.</p>
+
+    <p>
+        If you no longer have access to the email address <strong>@ViewBag.MaskedEmail</strong>, please <a href="http://www.okta.org/About/Contact/Pages/Contact.aspx">contact us</a>.
+    </p>
+</div>

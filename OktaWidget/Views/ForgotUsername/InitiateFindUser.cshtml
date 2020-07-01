@@ -1,0 +1,49 @@
+﻿@model OktaJS_SDK.Models.ForgotUsernameViewModel
+
+@{
+    ViewBag.Title = "Forgot Your User Name?";
+}
+
+<h1>@ViewBag.Title</h1>
+
+@if (ViewBag.IsNotFound)
+{
+    <p class="margin-btm-25">
+        We could not find an account for Policy Number <strong>@Model.policyNumber</strong> and Last Name <strong>@Model.LastName</strong>. <br />
+        If one or both are typed incorrectly, please try again. If both are correct, please <a href="http://www.okta.org/About/Contact/Pages/Contact.aspx">contact us</a>.
+    </p>
+}
+else
+{
+    <p class="margin-btm-25">Enter your Policy Number and last name below to see if it matches an account in our system.</p>
+}
+
+<div class="subcontainer-inner-wrapper">
+    <form action="/ForgotUsername/CheckForUser" class="v-form border-none" method="post">
+        @Html.ValidationSummary(true)
+        @Html.AntiForgeryToken()
+             <fieldset>
+            <div class="margin-btm-25">
+                <label class="first" for="PolicyNumber">Policy Number</label>
+                <input class="form-control policy-number" data-val="true" data-val-maxlength="The field Policy Number must be a string or array type with a maximum length of '100'." data-val-maxlength-max="100" data-val-regex="That Policy Number does not look quite right. It should be just numbers (ex. 123456789)." data-val-regex-pattern="^\d+$" data-val-required="The Polcy Number field is required." id="PolicyNumber" maxlength="100" name="PolicyNumber" onkeydown="onlyNumbers(event)" required="required" value="" type="text">
+                <span class="field-validation-valid text-danger" data-valmsg-for="PolicyNumber" data-valmsg-replace="true"></span>
+            </div>
+            <div class="margin-btm-25">
+                <label for="LastName">Last Name</label>
+                <input class="form-control policy-lastname" data-val="true" data-val-maxlength="The field Last Name must be a string or array type with a maximum length of '100'." data-val-maxlength-max="100" data-val-regex="That Last Name does not look quite right. It should be just letters, hyphens, and spaces." data-val-regex-pattern="^[\w-\s]+$" data-val-required="The Last Name field is required." id="LastName" maxlength="100" name="LastName" onkeydown="onlyAlpha(event)" required="required" value="" type="text">
+                <span class="field-validation-valid text-danger" data-valmsg-for="LastName" data-valmsg-replace="true"></span>
+            </div>
+            <input value="Submit" class="button" type="submit">
+        </fieldset>
+    </form>    
+
+</div>
+
+<script type="text/javascript">
+    function onlyNumbers(e) {
+        $('.policy-number').onlyNumbers(e);
+    }
+    function onlyAlpha(e) {
+        $('.policy-lastname').onlyAlpha(e);
+    }
+</script>
